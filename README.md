@@ -129,6 +129,53 @@ Throughout the code: $\hbar = 1$, **time in μs**, and **frequencies as angular
 frequencies in rad/μs**. A Rabi frequency quoted as $\Omega/2\pi = 1$ MHz is
 therefore `Omega = 2 * np.pi * 1.0` in the code.
 
+## Roadmap
+
+The milestone is built bottom-up. Each module gets tests before the next one
+builds on it.
+
+**Foundations**
+
+- [x] 1. `units.py`: conversions between MHz and rad/μs.
+- [ ] 2. `states.py`: the basis states, $|\Psi^+\rangle$, populations, norm
+      and fidelity. Tests in `test_states.py`.
+- [ ] 3. `hamiltonians.py`: single-atom and two-atom Hamiltonians. Tests in
+      `test_hamiltonians.py` cover hermiticity, the matrix elements, and the
+      $V = 0$ limit reducing to two independent atoms.
+
+**Part 1: time-independent Hamiltonian**
+
+- [ ] 4. `analytic.py`: closed-form solutions for $V = 0$ and for perfect
+      blockade ($|V| \gg |\Omega|$, a $\sqrt{2}\,\Omega$ oscillation between
+      $|00\rangle$ and $|\Psi^+\rangle$). Tests in `test_analytic.py`.
+- [ ] 5. `evolution/eigen.py`: the eigendecomposition propagator. Tests in
+      `test_evolution.py` check norm conservation, unitarity and agreement
+      with `scipy.linalg.expm`.
+- [ ] 6. `convergence.py`: error metrics such as residuals and the norm error.
+- [ ] 7. `configs/` + `scripts/blockade_dynamics.py`: reproduce the blockade
+      plot for $\Omega/2\pi = 1$ MHz and $V/2\pi$ from 0 to 100 MHz.
+- [ ] 8. `scripts/analytic_residuals.py`: residuals against both analytic
+      limits.
+
+**Part 2: time-dependent Hamiltonian**
+
+- [ ] 9. `protocols.py`: linear and cubic detuning sweeps $\Delta(t)$.
+- [ ] 10. `evolution/trotter.py`: Trotter–Suzuki stepping. Test that it
+      reproduces the eigendecomposition result for a constant Hamiltonian.
+- [ ] 11. `scripts/timestep_convergence.py`: find the largest $\delta t$ that
+      gives four significant figures. Mark its tests `convergence` and, if
+      long, `slow`.
+- [ ] 12. `scripts/detuning_sweep.py`: the cubic sweep with
+      $\Delta_\text{max}/2\pi = 50$ MHz and $t_\text{max} = 1$ μs, run at the
+      converged $\delta t$.
+- [ ] 13. `scripts/sweep_profiles.py`: compare the linear and cubic profiles.
+
+**Write-up**
+
+- [ ] 14. Embed the key figures under [Results](#results) and fill in the
+      report's `validation.tex` and `results.tex`.
+- [ ] 15. Choose and scope the extension.
+
 ## Results
 
 <!-- Embed the PNGs from results/figures/ here once the scripts are written. -->
