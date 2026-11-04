@@ -137,9 +137,9 @@ builds on it.
 **Foundations**
 
 - [x] 1. `units.py`: conversions between MHz and rad/μs.
-- [ ] 2. `states.py`: the basis states, $|\Psi^+\rangle$, populations, norm
+- [x] 2. `states.py`: the basis states, $|\Psi^+\rangle$, populations, norm
       and fidelity. Tests in `test_states.py`.
-- [ ] 3. `hamiltonians.py`: single-atom and two-atom Hamiltonians. Tests in
+- [x] 3. `hamiltonians.py`: single-atom and two-atom Hamiltonians. Tests in
       `test_hamiltonians.py` cover hermiticity, the matrix elements, and the
       $V = 0$ limit reducing to two independent atoms.
 
