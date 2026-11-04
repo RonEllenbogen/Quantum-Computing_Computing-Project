@@ -218,3 +218,31 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# --- Project outputs ---
+results/data/*
+!results/data/.gitkeep
+
+# --- LaTeX build artefacts ---
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.nav
+*.out
+*.run.xml
+*.snm
+*.synctex.gz
+*.toc
+*.vrb
+reports/**/*.pdf
+!reports/**/figures/*.pdf
+
+# --- OS / editors ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

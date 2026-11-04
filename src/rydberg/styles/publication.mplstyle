@@ -1,0 +1,49 @@
+# Publication style for the report, poster and slides.
+# Colour cycle: Okabe-Ito (colour-blind safe).
+
+# --- Figure ---
+figure.figsize      : 3.4, 2.6
+figure.dpi          : 100
+figure.constrained_layout.use : True
+
+# --- Saving ---
+savefig.dpi         : 300
+savefig.bbox        : tight
+savefig.pad_inches  : 0.02
+savefig.format      : pdf
+
+# --- Fonts ---
+font.family         : serif
+font.serif          : Computer Modern Roman, CMU Serif, DejaVu Serif, Times New Roman, serif
+mathtext.fontset    : cm
+font.size           : 9
+axes.titlesize      : 9
+axes.labelsize      : 9
+xtick.labelsize     : 8
+ytick.labelsize     : 8
+legend.fontsize     : 8
+axes.formatter.use_mathtext : True
+
+# --- Axes ---
+axes.linewidth      : 0.8
+axes.grid           : False
+axes.prop_cycle     : cycler("color", ["0072B2", "D55E00", "009E73", "CC79A7", "E69F00", "56B4E9", "F0E442", "000000"])
+
+# --- Lines ---
+lines.linewidth     : 1.4
+lines.markersize    : 4
+
+# --- Ticks ---
+xtick.direction     : in
+ytick.direction     : in
+xtick.top           : True
+ytick.right         : True
+xtick.minor.visible : True
+ytick.minor.visible : True
+xtick.major.size    : 3.5
+ytick.major.size    : 3.5
+xtick.minor.size    : 2
+ytick.minor.size    : 2
+
+# --- Legend ---
+legend.frameon      : False

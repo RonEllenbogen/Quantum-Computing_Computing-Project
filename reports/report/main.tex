@@ -1,0 +1,56 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{siunitx}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage[backend=biber,style=numeric-comp]{biblatex}
+\usepackage[colorlinks=true,allcolors=blue]{hyperref}
+\usepackage{cleveref}
+
+\graphicspath{{../../results/figures/}}
+\addbibresource{../references.bib}
+
+\title{Quantum dynamics and quantum computing:\\
+  simulation of two driven, interacting Rydberg-atom qubits}
+\author{Ron Ellenbogen}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\input{sections/abstract}
+\input{sections/lay_summary}
+
+\section{Introduction}\label{sec:introduction}
+\input{sections/introduction}
+
+\section{Theory}\label{sec:theory}
+\input{sections/theory}
+
+\section{Numerical methods}\label{sec:methods}
+\input{sections/methods}
+
+\section{Validation}\label{sec:validation}
+\input{sections/validation}
+
+\section{Results}\label{sec:results}
+\input{sections/results}
+
+\section{Extension}\label{sec:extension}
+\input{sections/extension}
+
+\section{Discussion}\label{sec:discussion}
+\input{sections/discussion}
+
+\section{Conclusions}\label{sec:conclusions}
+\input{sections/conclusions}
+
+\printbibliography
+
+\end{document}

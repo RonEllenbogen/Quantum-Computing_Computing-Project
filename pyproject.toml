@@ -1,0 +1,92 @@
+[project]
+name = "rydberg-dynamics"
+version = "0.1.0"
+description = "Numerical simulation of two driven, interacting Rydberg-atom qubits."
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Ron Ellenbogen" }]
+keywords = ["quantum computing", "Rydberg atoms", "quantum dynamics", "physics"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Physics",
+  "Typing :: Typed",
+]
+dependencies = ["numpy", "scipy", "matplotlib"]
+
+[dependency-groups]
+dev = [
+  "pytest",
+  "pytest-cov",
+  "ruff",
+  "mypy",
+  "pre-commit",
+  "nbstripout",
+  "ipykernel",
+  "jupyterlab",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/rydberg"]
+# Non-Python package data (e.g. styles/*.mplstyle) is shipped with the package.
+artifacts = ["src/rydberg/styles/*.mplstyle"]
+
+# --- Ruff ---------------------------------------------------------------------
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+extend-include = ["*.ipynb"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "SIM", "NPY", "D"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["D100", "D103", "D104"]
+"scripts/**" = ["D100", "D103", "D104"]
+"notebooks/**" = ["D100", "D103", "E402", "F401"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["rydberg"]
+
+# --- Mypy ---------------------------------------------------------------------
+
+[tool.mypy]
+python_version = "3.12"
+strict = false
+ignore_missing_imports = true
+warn_unused_configs = true
+
+[[tool.mypy.overrides]]
+module = "rydberg.*"
+disallow_untyped_defs = true
+
+# --- Pytest / coverage --------------------------------------------------------
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+markers = [
+  "slow: long-running tests (deselect with -m 'not slow')",
+  "convergence: numerical convergence studies",
+]
+
+[tool.coverage.run]
+source = ["rydberg"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+skip_empty = true
