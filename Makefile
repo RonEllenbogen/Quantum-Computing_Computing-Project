@@ -2,7 +2,7 @@
 # On Windows, run these via Git Bash or WSL.
 
 .DEFAULT_GOAL := help
-.PHONY: help setup lint format typecheck test test-fast figures report poster slides clean
+.PHONY: help setup typecheck test test-fast figures report poster slides clean
 
 UV ?= uv
 LATEXMK ?= latexmk -pdf -interaction=nonstopmode -halt-on-error
@@ -15,14 +15,6 @@ setup: ## Create the environment and install git hooks
 	$(UV) sync
 	$(UV) run pre-commit install
 	$(UV) run nbstripout --install
-
-lint: ## Lint and check formatting with ruff
-	$(UV) run ruff check .
-	$(UV) run ruff format --check .
-
-format: ## Auto-format and fix lint issues with ruff
-	$(UV) run ruff format .
-	$(UV) run ruff check --fix .
 
 typecheck: ## Type-check the package with mypy
 	$(UV) run mypy src
