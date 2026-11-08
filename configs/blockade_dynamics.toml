@@ -1,2 +1,30 @@
 # Parameters for: Rydberg-blockade dynamics, P(|00>) and |Psi+> population vs interaction strength V.
 # Units: hbar = 1, time in us, frequencies as angular frequencies in rad/us.
+# Frequencies below are given as f = omega / 2pi in MHz and converted in the script.
+# Target: handbook Fig. 5.1.
+
+[drive]
+omega_mhz = 1.0   # Rabi frequency Omega / 2pi
+delta_mhz = 0.0   # detuning Delta / 2pi (resonant excitation)
+phi = 0.0         # laser phase, rad
+
+[interaction]
+v_min_mhz = 0.0   # V / 2pi, linearly spaced from min to max inclusive
+v_max_mhz = 100.0
+n_v = 1001          # step 0.1 MHz, so ~10 curves fall in the crossover V ~ Omega
+
+[time]
+t_max_us = 1.0
+n_times = 1001
+
+[output]
+data = "results/data/blockade_dynamics"
+figure = "blockade_dynamics"
+
+[plot]
+figsize = [3.4, 3.4]      # inches
+colour_v0 = "#56B4E9"     # V = 0 curve (Okabe-Ito sky blue)
+colour_v = "#A50F15"      # V > 0 curves (dark red)
+alpha_min = 0.1           # opacity of the weakest V > 0 curve; rises linearly to 1 at v_max
+linewidth_v = 0.5
+linewidth_v0 = 1.0
