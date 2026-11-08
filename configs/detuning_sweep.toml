@@ -1,4 +1,4 @@
-# Parameters for: adiabatic cubic detuning sweep evolved with Trotter-Suzuki stepping.
+# Parameters for: cubic detuning sweep (handbook Fig. 5.2) evolved with Trotter-Suzuki stepping.
 # Units: hbar = 1, time in us, frequencies as angular frequencies in rad/us.
 # Frequencies below are given as f = omega / 2pi in MHz and converted in the script.
 # Target: handbook Fig. 5.2.

@@ -8,12 +8,16 @@ step, which is itself cross-checked against scipy's adaptive DOP853 integrator.
 
 Two error measures are used (see :mod:`rydberg.convergence`):
 
-final
-    |P_Psi+(t_max; dt) - P_ref|, required to be <= 0.5e-4 |P_ref| for four
-    significant figures in the final Bell-state population.
-trajectory
+trajectory (the headline criterion)
     max over the coarse time grid and over {P_00, P_Psi+} of the absolute
-    population error, required to be <= 0.5e-4.
+    population error, required to be <= 0.5e-4. Since P_Psi- stays zero by
+    exchange symmetry, the error in P_rr is then at most twice this.
+final (a weak test, reported for comparison)
+    |P_Psi+(t_max; dt) - P_ref|, required to be <= 0.5e-4 |P_ref|. Because
+    P_Psi+(t_max) is close to its maximum of 1, it is only quadratically
+    sensitive to errors in the state: at the left-rule dt that passes this
+    test, the small population P_00(t_max) can still be wrong at the percent
+    level. Use the trajectory criterion (or 1 - P) to judge accuracy.
 
 The largest acceptable dt is the largest scanned dt for which that dt and every
 smaller scanned dt pass, refined by bisection on the number of steps.
@@ -54,7 +58,7 @@ from rydberg.units import mhz_to_angular
 DEFAULT_CONFIG = Path("configs/timestep_convergence.toml")
 
 RealArray = NDArray[np.float64]
-METRICS = ("final", "trajectory")
+METRICS = ("trajectory", "final")
 
 
 def populations(states: NDArray[np.complex128]) -> RealArray:
@@ -266,15 +270,20 @@ def study_case(
         "label": case["label"], "p_ref_final": p_ref_final, "tolerances": tolerances,
         "solve_ivp": ivp, "dt_us": dts, "errors": {}, "orders": {}, "largest_dt": {},
     }
-    window = (dts >= float(numerics["fit_dt_min_us"])) & (dts <= float(numerics["fit_dt_max_us"]))
+    # Fit windows per metric: the final-value error of the left rule only
+    # reaches its asymptotic regime at smaller dt than the trajectory error.
+    windows = {
+        m: (dts >= float(numerics["fit_dt_min_us"][m])) & (dts <= float(numerics["fit_dt_max_us"][m]))
+        for m in METRICS
+    }
     for method in numerics["methods"]:
         model = ErrorModel(h, t_max, method, reference, int(numerics["refine_reference_min_steps"]))
         errs = np.array([[model.error(int(n), m) for m in METRICS] for n in steps])
-        out["errors"][method] = {"final": errs[:, 0], "trajectory": errs[:, 1]}
+        out["errors"][method] = {m: errs[:, k] for k, m in enumerate(METRICS)}
         out["orders"][method] = {}
         out["largest_dt"][method] = {}
         for k, metric in enumerate(METRICS):
-            use = window & (errs[:, k] > float(numerics["fit_error_floor"]))
+            use = windows[metric] & (errs[:, k] > float(numerics["fit_error_floor"]))
             if np.count_nonzero(use) >= 3:
                 p, a = fit_power_law(dts[use], errs[use, k])
                 rms = float(np.sqrt(np.mean(
@@ -300,14 +309,15 @@ def plot_convergence(result: dict[str, Any], cfg: dict[str, Any]) -> Figure:
     Returns
     -------
     matplotlib.figure.Figure
-        Two log-log panels: final P(|Psi+>) error and max trajectory error.
+        Two log-log panels: max trajectory error (the headline criterion) and
+        the final P(|Psi+>) error (a weak test, since P is close to 1).
     """
     plot_cfg = cfg["plot"]
     fig, axes = plt.subplots(1, 2, figsize=tuple(plot_cfg["figsize"]), sharex=True)
     dts = result["dt_us"]
     titles = {
-        "final": r"(a) $|P_{|\Psi^+\rangle}(t_{\max}) - P_{\rm ref}|$",
-        "trajectory": r"(b) $\mathrm{max}_t\,|P(t) - P_{\rm ref}(t)|$",
+        "trajectory": r"(a) all populations, all times: $\mathrm{max}_t\,|P(t) - P_{\rm ref}(t)|$",
+        "final": r"(b) final value only: $|P_{|\Psi^+\rangle}(t_{\max}) - P_{\rm ref}|$",
     }
     for ax, metric in zip(axes, METRICS, strict=True):
         for method in cfg["numerics"]["methods"]:
@@ -318,7 +328,8 @@ def plot_convergence(result: dict[str, Any], cfg: dict[str, Any]) -> Figure:
             if fit is not None:
                 label += f", slope {fit['order']:.2f}"
                 if fit["rms_log_residual"] < 0.3:
-                    lo, hi = cfg["numerics"]["fit_dt_min_us"], cfg["numerics"]["fit_dt_max_us"]
+                    lo = cfg["numerics"]["fit_dt_min_us"][metric]
+                    hi = cfg["numerics"]["fit_dt_max_us"][metric]
                     xs = np.array([lo, hi])
                     ax.loglog(xs, fit["prefactor"] * xs ** fit["order"], color=c,
                               linewidth=0.8, alpha=0.6)

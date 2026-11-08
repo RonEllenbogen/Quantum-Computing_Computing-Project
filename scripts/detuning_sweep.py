@@ -1,4 +1,4 @@
-"""Reproduce the adiabatic cubic detuning sweep with Trotter-Suzuki stepping.
+"""Reproduce the cubic detuning sweep of handbook Fig. 5.2 with Trotter-Suzuki stepping.
 
 Two atoms start in |00> and are driven with constant Rabi frequency Omega while
 the detuning is swept through resonance, Delta(t) = 8 Delta_max
@@ -9,6 +9,12 @@ recorded.
 
 The figure reproduces handbook Fig. 5.2: Delta(t) on top, then P(|00>) and
 P(|Psi+>), with V = 0 in blue and V > 0 in red, opacity increasing with V.
+
+At t_max = 1 us the sweep is *not* adiabatic: the adiabaticity parameter
+peaks at ~0.3-0.5 (see ``sweep_profiles.py``), and the final Bell-state
+population is not monotonic in t_max. The high P(|Psi+>) at 1 us is partly a
+coherent pulse-area effect of this particular duration, not adiabatic
+following alone.
 
 Two checks are printed and saved with the data: a step-doubling estimate of the
 time-step error over all V, and the final P(|Psi+>) with the sign of Delta

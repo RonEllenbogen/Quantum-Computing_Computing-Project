@@ -71,7 +71,8 @@ def test_subsample_to_grid() -> None:
     values = np.stack([fine, fine**2], axis=-1)
     coarse = np.linspace(0.0, 1.0, 11)
     np.testing.assert_allclose(
-        subsample_to_grid(fine, values, coarse), np.stack([coarse, coarse**2], axis=-1)
+        np.asarray(subsample_to_grid(fine, values, coarse), dtype=np.float64),
+        np.stack([coarse, coarse**2], axis=-1),
     )
     with pytest.raises(ValueError, match="coincide"):
         subsample_to_grid(fine, values, np.array([0.0005]))

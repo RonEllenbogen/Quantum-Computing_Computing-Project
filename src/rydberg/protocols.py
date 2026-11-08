@@ -172,7 +172,7 @@ def landau_zener_bell_population(
 ) -> RealArray:
     """Return the Landau-Zener estimate of P(|Psi+>) after a linear sweep.
 
-    In the blockade limit (V much larger than Omega and Delta_max), |00> with
+    In the blockade limit, |00> with
     energy Delta couples only to |Psi+> with energy 0, through the matrix
     element g = Omega / sqrt(2) (see
     :func:`rydberg.analytic.blockade_amplitudes`). Their diabatic energies
@@ -185,6 +185,13 @@ def landau_zener_bell_population(
     This assumes an infinite sweep range. For a finite range +-Delta_max the
     exact result oscillates about this value by an amount that shrinks as
     Omega / Delta_max does.
+
+    It also assumes |rr> stays far off resonance throughout the sweep, i.e.
+    |V - 2 Delta(t)| >> Omega for all t. |rr> becomes resonant with |00> (the
+    facilitation condition 2 Delta = V) at Delta = V / 2, so this requires
+    V - 2 Delta_max >> Omega. For V = 2 Delta_max (e.g. V/2pi = 100 MHz with
+    Delta_max/2pi = 50 MHz) that resonance is reached only at t = t_max; in
+    that case P(|rr>) at t_max is ~2e-4 and the estimate still holds well.
 
     Parameters
     ----------

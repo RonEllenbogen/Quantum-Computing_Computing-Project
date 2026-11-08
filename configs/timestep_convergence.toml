@@ -3,9 +3,10 @@
 # Frequencies below are given as f = omega / 2pi in MHz and converted in the script.
 #
 # Accuracy criteria ("4 significant figures", see rydberg.convergence):
-#   final:      |P_Psi+(t_max; dt) - P_ref| <= 0.5e-4 * |P_ref|
-#   trajectory: max over t and over {P_00, P_Psi+} of |P(t; dt) - P_ref(t)| <= 0.5e-4
-# compared on the coarse time grid, which is a subset of the reference grid.
+#   trajectory (headline): max over t and over {P_00, P_Psi+} of |P(t; dt) - P_ref(t)| <= 0.5e-4,
+#                          compared on the coarse time grid (a subset of the reference grid)
+#   final (weak test):     |P_Psi+(t_max; dt) - P_ref| <= 0.5e-4 * |P_ref|; P_ref is close to 1,
+#                          so this is only quadratically sensitive to errors in the state
 
 [drive]
 omega_mhz = 1.0
@@ -52,8 +53,9 @@ refine_reference_min_steps = 1000000
 n_verify = 200
 # Fit of the convergence order: only points with dt in this range (us) and error
 # above the floor are used.
-fit_dt_min_us = 1e-5
-fit_dt_max_us = 1e-3
+# The left rule's final-value error is only asymptotic below ~2e-4 us.
+fit_dt_min_us = { trajectory = 1e-5, final = 1e-5 }
+fit_dt_max_us = { trajectory = 1e-3, final = 2e-4 }
 fit_error_floor = 1e-9
 
 [validation]

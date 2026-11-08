@@ -31,6 +31,35 @@ def _git_commit() -> str:
     return result.stdout.strip() or "unknown"
 
 
+def _git_dirty() -> bool | None:
+    """Return True if tracked files have uncommitted changes, None if unknown.
+
+    A result produced from a dirty tree cannot be reproduced from
+    ``git_commit`` alone, so this flag is stored alongside it. Generated
+    outputs under ``results/`` are ignored: regenerating figures rewrites
+    tracked files there, which says nothing about the code that made them.
+    """
+    try:
+        result = subprocess.run(
+            [
+                "git",
+                "status",
+                "--porcelain",
+                "--untracked-files=no",
+                "--",
+                ":(top)",
+                ":(top,exclude)results",
+            ],
+            capture_output=True,
+            text=True,
+            check=True,
+            cwd=Path(__file__).resolve().parent,
+        )
+    except (OSError, subprocess.CalledProcessError):
+        return None
+    return bool(result.stdout.strip())
+
+
 def _paths(path: str | Path) -> tuple[Path, Path]:
     """Return the ``.npz`` and ``.json`` paths sharing the stem of ``path``."""
     base = Path(path)
@@ -55,7 +84,8 @@ def save_results(
         Named arrays to store.
     metadata : dict, optional
         JSON-serialisable run metadata (e.g. the config used). The keys
-        ``git_commit``, ``timestamp_utc`` and ``package_version`` are added
+        ``git_commit``, ``git_dirty`` (True if tracked files had uncommitted
+        changes), ``timestamp_utc`` and ``package_version`` are added
         automatically.
 
     Returns
@@ -69,6 +99,7 @@ def save_results(
     meta = dict(metadata or {})
     meta.update(
         git_commit=_git_commit(),
+        git_dirty=_git_dirty(),
         timestamp_utc=datetime.now(UTC).isoformat(timespec="seconds"),
         package_version=__version__,
     )

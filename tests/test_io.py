@@ -31,6 +31,7 @@ def test_provenance_metadata_is_added(tmp_path: Path) -> None:
     assert metadata["package_version"] == __version__
     assert isinstance(metadata["git_commit"], str)
     assert metadata["git_commit"]
+    assert metadata["git_dirty"] in (True, False, None)
     assert metadata["timestamp_utc"].endswith("+00:00")
 
 
