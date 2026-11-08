@@ -1,2 +1,47 @@
 # Parameters for: comparison of linear and cubic detuning-sweep profiles.
 # Units: hbar = 1, time in us, frequencies as angular frequencies in rad/us.
+# Frequencies below are given as f = omega / 2pi in MHz and converted in the script.
+
+[drive]
+omega_mhz = 1.0   # Rabi frequency Omega / 2pi (constant)
+phi = 0.0         # laser phase, rad
+
+[sweep]
+profiles = ["cubic", "linear"]
+delta_max_mhz = 50.0   # Delta_max / 2pi; both sweeps run from -Delta_max to +Delta_max
+t_max_us = 1.0         # duration for the time-resolved panels (a)-(d)
+
+[interaction]
+v_mhz = 100.0          # V / 2pi for all panels (blockade regime)
+v_weak_mhz = 10.0      # weaker interaction, also shown in panel (b)
+
+[numerics]
+sample = "midpoint"
+# Step size for every run. Midpoint error at this dt is ~3e-8 in the populations
+# for t_max = 1 us (timestep_convergence.py); checked here by step doubling.
+dt_us = 1e-4
+check_factor = 2
+
+[fidelity_scan]
+# Final Bell-state fidelity |<Psi+|Psi(t_max)>|^2 versus sweep duration.
+t_max_min_us = 0.1
+t_max_max_us = 10.0
+n_t_max = 500          # log-spaced; each value is rounded to a multiple of dt
+report_t_max_us = [0.5, 1.0, 2.0, 5.0, 10.0]   # durations whose fidelities are printed
+fidelity_threshold = 0.99   # report the t_max beyond which fidelity stays above this
+
+[spectrum]
+n_times = 2001         # time samples for the adiabatic spectrum and adiabaticity parameter
+ylim_mhz = [-6.0, 6.0] # zoom of the spectrum panel around resonance, E / 2pi in MHz
+fd_step_us = 1e-6      # finite-difference step for dH/dt
+
+[output]
+data = "results/data/sweep_profiles"
+figure = "sweep_profiles"
+
+[plot]
+figsize = [7.0, 6.2]   # inches (full text width)
+colours = { cubic = "#0072B2", linear = "#D55E00" }   # Okabe-Ito blue / vermillion
+colour_lz = "#000000"
+linestyle_weak = "--"
+adiabaticity_ylim = [1e-5, 10.0]   # dimensionless; the cubic value is exactly 0 at resonance

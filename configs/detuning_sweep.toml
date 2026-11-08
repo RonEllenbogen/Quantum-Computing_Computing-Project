@@ -1,2 +1,46 @@
 # Parameters for: adiabatic cubic detuning sweep evolved with Trotter-Suzuki stepping.
 # Units: hbar = 1, time in us, frequencies as angular frequencies in rad/us.
+# Frequencies below are given as f = omega / 2pi in MHz and converted in the script.
+# Target: handbook Fig. 5.2.
+
+[drive]
+omega_mhz = 1.0   # Rabi frequency Omega / 2pi (constant)
+phi = 0.0         # laser phase, rad
+
+[sweep]
+profile = "cubic"      # Delta(t) = 8 Delta_max [(t - t_max/2) / t_max]^3
+delta_max_mhz = 50.0   # Delta_max / 2pi
+t_max_us = 1.0
+
+[interaction]
+v_min_mhz = 0.0   # V / 2pi, linearly spaced from min to max inclusive
+v_max_mhz = 100.0
+n_v = 1001        # step 0.1 MHz, as in blockade_dynamics
+
+[numerics]
+sample = "midpoint"   # H sampled at the middle of each step: global error O(dt^2)
+# dt = 1e-4 us (10^4 steps). timestep_convergence.py gives a max population error
+# of ~3e-8 at this dt for the cubic sweep at V/2pi = 100 MHz and ~4e-8 at V = 0,
+# about 1e-5 of a line width on the plot. Checked here for every V by step doubling.
+n_steps = 10000
+check_factor = 2      # also run with dt * check_factor; report max |P(dt) - P(check dt)|
+
+[sign_check]
+# Rerun with Delta -> -Delta at these V / 2pi (MHz). Delta -> -Delta is not a
+# symmetry for V != 0, so this shows how strongly Fig. 5.2 tests the sign convention.
+v_mhz = [0.0, 5.0, 10.0, 20.0, 50.0, 100.0]
+
+[output]
+data = "results/data/detuning_sweep"
+figure = "detuning_sweep"
+n_saved_times = 1001   # populations stored and plotted on this many evenly spaced times
+
+[plot]
+figsize = [3.4, 4.2]      # inches
+colour_detuning = "#A39E5E"   # Delta(t) curve (olive, as in Fig. 5.2)
+colour_v0 = "#56B4E9"     # V = 0 curve (Okabe-Ito sky blue)
+colour_v = "#A50F15"      # V > 0 curves (dark red)
+alpha_min = 0.1           # opacity of the weakest V > 0 curve; rises linearly to 1 at v_max
+linewidth_v = 0.5
+linewidth_v0 = 1.0
+height_ratios = [1.0, 1.0, 1.0]

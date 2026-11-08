@@ -1,2 +1,73 @@
 # Parameters for: time-step convergence study of the Trotter-Suzuki propagator.
 # Units: hbar = 1, time in us, frequencies as angular frequencies in rad/us.
+# Frequencies below are given as f = omega / 2pi in MHz and converted in the script.
+#
+# Accuracy criteria ("4 significant figures", see rydberg.convergence):
+#   final:      |P_Psi+(t_max; dt) - P_ref| <= 0.5e-4 * |P_ref|
+#   trajectory: max over t and over {P_00, P_Psi+} of |P(t; dt) - P_ref(t)| <= 0.5e-4
+# compared on the coarse time grid, which is a subset of the reference grid.
+
+[drive]
+omega_mhz = 1.0
+phi = 0.0
+
+[sweep]
+delta_max_mhz = 50.0
+t_max_us = 1.0
+
+# The first case is the main one, plotted; the others are only tabulated.
+[[cases]]
+label = "cubic, V/2pi = 100 MHz"
+profile = "cubic"
+v_mhz = 100.0
+
+[[cases]]
+label = "cubic, V = 0"
+profile = "cubic"
+v_mhz = 0.0
+
+[[cases]]
+label = "linear, V/2pi = 100 MHz"
+profile = "linear"
+v_mhz = 100.0
+
+[numerics]
+n_sig = 4
+methods = ["left", "midpoint"]
+# Reference: midpoint rule with this many steps (dt_ref = 1e-6 us). Its own error
+# is ~3e-12 from truncation plus ~1e-11 accumulated round-off; it is cross-checked
+# against solve_ivp below.
+reference_steps = 1000000
+# Scanned step counts: every divisor of reference_steps in this range, so each
+# coarse grid is a subset of the reference grid (dt = t_max / n).
+n_min = 10
+n_max = 100000
+# Bisection between the bracketing divisors refines the largest acceptable dt to a
+# single step count. For the trajectory criterion each trial step count n gets its
+# own reference on a grid containing its points, with at least this many steps.
+refine = true
+refine_reference_min_steps = 1000000
+# Dense check that every n in [n_star, n_star + n_verify] also passes the
+# final-value criterion, whose error is not monotonic in dt at coarse steps.
+n_verify = 200
+# Fit of the convergence order: only points with dt in this range (us) and error
+# above the floor are used.
+fit_dt_min_us = 1e-5
+fit_dt_max_us = 1e-3
+fit_error_floor = 1e-9
+
+[validation]
+method = "DOP853"
+rtol = 1e-12
+atol = 1e-12
+n_eval = 1001     # comparison times for the trajectory check
+
+[output]
+data = "results/data/timestep_convergence"
+figure = "timestep_convergence"
+
+[plot]
+figsize = [7.0, 3.2]
+colours = { left = "#D55E00", midpoint = "#0072B2" }
+markers = { left = "o", midpoint = "s" }
+colour_threshold = "#555555"
