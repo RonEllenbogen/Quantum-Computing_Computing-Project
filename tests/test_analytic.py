@@ -207,6 +207,24 @@ def test_blockade_detuned_residuals_scale_with_omega_over_v(v_sign: float) -> No
     assert log_log_slope(BLOCKADE_RATIOS, population_errors) == pytest.approx(-1.0, abs=0.1)
 
 
+@pytest.mark.convergence
+def test_weak_interaction_residuals_scale_with_v_over_omega() -> None:
+    """For V << Omega the V = 0 solution fails as V/Omega (amplitudes), (V/Omega)^2 (populations).
+
+    To first order V only adds a phase to the |rr> component, which shifts the
+    amplitudes linearly in V but changes the populations only at second order.
+    """
+    ratios = np.array([1e-3, 3e-3, 1e-2, 3e-2])
+    analytic = no_interaction_amplitudes(TIMES, OMEGA)
+    amplitude_errors, population_errors = [], []
+    for ratio in ratios:
+        numerical = evolve(two_atom_hamiltonian(OMEGA, 0.0, 0.0, ratio * OMEGA), KET_00, TIMES)
+        amplitude_errors.append(np.max(np.abs(numerical - analytic)))
+        population_errors.append(np.max(np.abs(np.abs(numerical) ** 2 - np.abs(analytic) ** 2)))
+    assert log_log_slope(ratios, np.array(amplitude_errors)) == pytest.approx(1.0, abs=0.05)
+    assert log_log_slope(ratios, np.array(population_errors)) == pytest.approx(2.0, abs=0.05)
+
+
 def test_blockade_is_good_at_handbook_parameters() -> None:
     """At V / 2pi = 100 MHz the blockade picture holds to better than 1e-3 in population."""
     v = mhz_to_angular(100.0)

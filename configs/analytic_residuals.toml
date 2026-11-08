@@ -1,2 +1,39 @@
 # Parameters for: residuals of the numerical evolution against analytic limits (V = 0, |V| >> |Omega|).
 # Units: hbar = 1, time in us, frequencies as angular frequencies in rad/us.
+# Frequencies below are given as f = omega / 2pi in MHz and converted in the script.
+
+[drive]
+omega_mhz = 1.0   # Rabi frequency Omega / 2pi
+delta_mhz = 0.0   # detuning Delta / 2pi
+phi = 0.0         # laser phase, rad
+
+[time]
+t_max_us = 1.0    # same window as Fig. 5.1
+n_times = 1001
+
+[scan]
+# Interaction strengths V / Omega, log-spaced over both limits and the crossover.
+log10_ratio_min = -3.0
+log10_ratio_max = 3.0
+n_ratio = 61
+# Asymptotic windows (in V / Omega) used to fit the power laws.
+weak_fit_max = 0.03     # fit residuals vs the V = 0 solution for V / Omega <= this
+strong_fit_min = 30.0   # fit residuals vs the blockade solution for V / Omega >= this
+
+[time_traces]
+# Residual vs time. The V = 0 cases test the propagator itself (exact, so
+# residuals are round-off); the blockade case shows a systematic model error.
+v0_detuned_delta_mhz = 3.0   # extra V = 0 case with detuning and phase, to test signs
+v0_detuned_phi = 0.7
+blockade_v_mhz = 100.0       # largest V in Fig. 5.1
+
+[output]
+data = "results/data/analytic_residuals"
+figure = "analytic_residuals"
+
+[plot]
+figsize = [3.4, 4.6]                # inches
+colour_weak = "#0072B2"             # residual vs V = 0 solution (Okabe-Ito blue)
+colour_strong = "#D55E00"           # residual vs blockade solution (Okabe-Ito vermillion)
+colour_v0_detuned = "#009E73"       # V = 0 detuned trace (Okabe-Ito green)
+scan_ylim_bottom = 1e-10            # leaves an empty band at the bottom of panel (a) for the legend
