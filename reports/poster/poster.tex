@@ -14,7 +14,7 @@
 \usepackage[T1]{fontenc}
 %\usepackage[utf8]{luainputenc}
 \usepackage{lmodern}
-\usepackage[size=custom, width=59.4,height=42, scale=0.5]{beamerposter}
+\usepackage[size=custom, width=59.4,height=42, scale=0.7]{beamerposter}
 \usetheme{gemini}
 \usecolortheme{cam}
 \usepackage{graphicx}
@@ -34,6 +34,12 @@
 \newlength{\colwidth}
 \setlength{\sepwidth}{0.025\paperwidth}
 \setlength{\colwidth}{0.3\paperwidth}
+
+% Block without a title, used to continue a block from the previous column
+\newenvironment{contblock}
+  {\begin{beamercolorbox}[colsep*=0ex]{block body}%
+    \usebeamerfont{block body}\justifying\setlength{\parskip}{1ex}}
+  {\end{beamercolorbox}\vskip0pt\vspace*{2ex}}
 
 \newcommand{\separatorcolumn}{\begin{column}{\sepwidth}\end{column}}
 
@@ -81,75 +87,77 @@
 
 \begin{column}{\colwidth}
 
-  \begin{block}{A block title}
+  \begin{block}{Atomic Qubits}
 
-    Some block contents, followed by a diagram, followed by a dummy paragraph.
+    Modern quantum computing revolves around interactions between two-state quantum systems known as qubits.
+    A qubit governed by a time-independent hamiltonian $H_0$ is represented by a superposition state
+    $|\psi(t)\rangle = a|0\rangle e^{-i E_0 t / \hbar} + b|1\rangle e^{-i E_1 t / \hbar}$, where $|0\rangle$ and
+    $|1\rangle$ are eigenstates of $H_0$ with energies $E_0$ and $E_1$ respectively and $a$ and $b$ are complex
+    coefficients. Hamiltonians used
+    in quantum computing often contain a time-dependent component $H'(t)$, leading to states with time-dependent
+    coefficients $a=a(t)$ and $b=b(t)$. We examine the case of an atomic qubit interacting with a
+    plane-polarised electromagnetic (EM) wave with angular frequency $\omega$, with $|0\rangle$ and $|1\rangle$ representing
+    the ground state and an excited state of the atom. This interaction perturbs the atom's hamiltonian $H_0$
+    by $H'(t)=-\mathbf{d} \cdot \mathbf{\epsilon}(t)$, where $\mathbf{d}$ is the dipole operator and $\mathbf{\epsilon}(t)$ is the
+    electric field component of the EM field. By substituting $|\psi(t)\rangle$ with time-dependent $a(t), b(t)$ into the
+    time-dependent Schr\"odinger equation with perturbed hamiltonian $H(t)=H_0 + H'(t)$, making the rotating-wave approximation
+    and transforming into a rotating
+    frame using a change of variables, a set of coupled equations for the rotated $a(t)$ and $b(t)$ is derived. These equations
+    take the form of a time-dependent Schr\"odinger equation with hamiltonian
+    $H_{int}=\hbar/2
+    \begin{pmatrix}
+    \Delta & \Omega e^{-i \phi_L} \\
+    \Omega e^{i \phi_L} & -\Delta
+    \end{pmatrix}$
+    in the $|0\rangle$, $|1\rangle$ basis, where $\Delta=\omega-\omega_0$ is the detuning between the EM field and the atomic
+    transition's natural frequency $\omega_0=(E_1-E_0)/\hbar$, the Rabi frequency is defined as
+    $\Omega=\langle 1|H'(t)|0\rangle / \hbar$, and $\phi_L$ is a constant phase factor in the electric field. As a result, the
+    atomic qubit under interaction with the EM field is represented as $|\psi(t)\rangle=\begin{pmatrix}
+    a(t) \\
+    b(t) \\
+    \end{pmatrix}$, with $a(t), b(t)$ governed by $H_{int}$. A single qubit is not useful for quantum computation so we consider
+    a system of two atomic qubits interacting with an EM field. On their own, two neutral atoms do not interact with enough
+    strength to produce entanglement. A solution is to excite an atom's valence electron to a high-principal number state, such
+    as $n>50$, known as a Rydberg state. Such states readily interact with eachother through the van der Waals interaction.
+    Denoting the system's four basis states, the possible combinations of each atom being in either its ground state $|0\rangle$
+    or a Rydberg state $|r\rangle$,  as $|00\rangle, |0r\rangle, |r0\rangle, |rr\rangle$, the van der Waals interaction
+    shifts the energy of the doubly excited state $|rr\rangle$ by $\hbar V\propto R^{-6}$. Extending the single-atom $H_{int}$
+    to this two-atom basis and including the van der Waals shift gives a hamiltonian of the form
 
-    \begin{figure}
-      \centering
-      \begin{tikzpicture}[scale=6]
-        \draw[step=0.25cm,color=gray] (-1,-1) grid (1,1);
-        \draw (1,0) -- (0.2,0.2) -- (0,1) -- (-0.2,0.2) -- (-1,0)
-          -- (-0.2,-0.2) -- (0,-1) -- (0.2,-0.2) -- cycle;
-      \end{tikzpicture}
-      \caption{A figure caption.}
-    \end{figure}
 
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ultricies
-    eget libero ac ullamcorper. Integer et euismod ante. Aenean vestibulum
-    lobortis augue, ut lobortis turpis rhoncus sed. Proin feugiat nibh a
-    lacinia dignissim. Proin scelerisque, risus eget tempor fermentum, ex
-    turpis condimentum urna, quis malesuada sapien arcu eu purus.
+
+
+
 
   \end{block}
 
-  \begin{block}{A block containing a list}
 
-    Nam vulputate nunc felis, non condimentum lacus porta ultrices. Nullam sed
-    sagittis metus. Etiam consectetur gravida urna quis suscipit.
 
-    \begin{itemize}
-      \item \textbf{Mauris tempor} risus nulla, sed ornare
-      \item \textbf{Libero tincidunt} a duis congue vitae
-      \item \textbf{Dui ac pretium} morbi justo neque, ullamcorper
-    \end{itemize}
 
-    Eget augue porta, bibendum venenatis tortor.
-
-  \end{block}
-
-  \begin{alertblock}{A highlighted block}
-
-    This block catches your eye, so \textbf{important stuff} should probably go
-    here.
-
-    Curabitur eu libero vehicula, cursus est fringilla, luctus est. Morbi
-    consectetur mauris quam, at finibus elit auctor ac. Aliquam erat volutpat.
-    Aenean at nisl ut ex ullamcorper eleifend et eu augue. Aenean quis velit
-    tristique odio convallis ultrices a ac odio.
-
-    \begin{itemize}
-      \item \textbf{Fusce dapibus tellus} vel tellus semper finibus. In
-        consequat, nibh sed mattis luctus, augue diam fermentum lectus.
-      \item \textbf{In euismod erat metus} non ex. Vestibulum luctus augue in
-        mi condimentum, at sollicitudin lorem viverra.
-      \item \textbf{Suspendisse vulputate} mauris vel placerat consectetur.
-        Mauris semper, purus ac hendrerit molestie, elit mi dignissim odio, in
-        suscipit felis sapien vel ex.
-    \end{itemize}
-
-    Aenean tincidunt risus eros, at gravida lorem sagittis vel. Vestibulum ante
-    ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.
-
-  \end{alertblock}
 
 \end{column}
 
 \separatorcolumn
 
 \begin{column}{\colwidth}
+  $$ H_{int}=
+    \begin{bmatrix}
+    2\Delta & \Omega e^{-i \phi_L} & \Omega e^{-i \phi_L} & 0 \\
+    \Omega e^{i \phi_L} & 0 & 0 & \Omega e^{-i \phi_L} \\
+    \Omega e^{i \phi_L} & 0 & 0 & \Omega e^{-i \phi_L} \\
+    0 & \Omega e^{i \phi_L} & \Omega e^{i \phi_L} & -2\Delta + 2V
+    \end{bmatrix}.
+    $$ dfjdskfldsj
 
   \begin{block}{A block containing an enumerated list}
+    $$ H_{int}=
+    \begin{bmatrix}
+    2\Delta & \Omega e^{-i \phi_L} & \Omega e^{-i \phi_L} & 0 \\
+    \Omega e^{i \phi_L} & 0 & 0 & \Omega e^{-i \phi_L} \\
+    \Omega e^{i \phi_L} & 0 & 0 & \Omega e^{-i \phi_L} \\
+    0 & \Omega e^{i \phi_L} & \Omega e^{i \phi_L} & -2\Delta + 2V
+    \end{bmatrix}.
+    $$
 
     Vivamus congue volutpat elit non semper. Praesent molestie nec erat ac
     interdum. In quis suscipit erat. \textbf{Phasellus mauris felis, molestie
@@ -269,7 +277,7 @@
 
   \end{exampleblock}
 
-  \begin{block}{Nullam vel erat at velit convallis laoreet}
+  \begin{block}{References}
 
     Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
     inceptos himenaeos. Phasellus libero enim, gravida sed erat sit amet,
