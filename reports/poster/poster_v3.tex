@@ -1,0 +1,340 @@
+% Unofficial New York University Poster Template
+% a fork of https://github.com/anishathalye/gemini
+% also refer to https://github.com/k4rtik/uchicago-poster
+
+% Adapted by Phillip Wang, all credits go to Tao Li
+
+
+\documentclass[final]{beamer}
+
+% ====================
+% Packages
+% ====================
+
+\usepackage[T1]{fontenc}
+%\usepackage[utf8]{luainputenc}
+\usepackage{lmodern}
+\usepackage[size=custom, width=59.4,height=42, scale=0.7]{beamerposter}
+\usetheme{gemini}
+\usecolortheme{cam}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.14}
+\usepackage{anyfontsize}
+
+% ====================
+% Lengths
+% ====================
+
+% If you have N columns, choose \sepwidth and \colwidth such that
+% (N+1)*\sepwidth + N*\colwidth = \paperwidth
+\newlength{\sepwidth}
+\newlength{\colwidth}
+\setlength{\sepwidth}{0.025\paperwidth}
+\setlength{\colwidth}{0.3\paperwidth}
+
+% Block without a title, used to continue a block from the previous column
+\newenvironment{contblock}
+  {\begin{beamercolorbox}[colsep*=0ex]{block body}%
+    \usebeamerfont{block body}\justifying\setlength{\parskip}{1ex}}
+  {\end{beamercolorbox}\vskip0pt\vspace*{2ex}}
+
+\newcommand{\separatorcolumn}{\begin{column}{\sepwidth}\end{column}}
+
+% ====================
+% Title
+% ====================
+
+\title{Title}
+
+\author{Department of Physics, Durham University}
+
+\institute[shortinst]{Short abstract.}
+
+% ====================
+% Footer (optional)
+% ====================
+
+\footercontent{
+  %\href{https://github.com}{Github: https://github.com} \hfill
+  %Capstone Festival, Abu Dhabi \hfill
+  %\href{mailto:taoli@nyu.edu}{faiza@nyu.edu}}
+}
+% (can be left out to remove footer)
+
+% ====================
+% Logo (optional)
+% ====================
+
+% use this to include logos on the left and/or right side of the header:
+% Left: institution
+ \logoleft{\includegraphics[height=5cm]{logos/durham-university-logo-transparent.png}}
+% Right: funding agencies and other affilations
+%\logoright{\includegraphics[height=7cm]{logos/NSF.eps}}
+% ====================
+% Body
+% ====================
+
+\begin{document}
+
+
+
+\begin{frame}[t]
+\begin{columns}[t]
+\separatorcolumn
+
+\begin{column}{\colwidth}
+
+  \begin{block}{Atomic Qubits with Rydberg States}
+
+    The young field of quantum computing is expected by many to revolutionise various aspects of society. These include
+    cryptography, drug and materials research, optimisation and more. It works by engangling quantum bits (qubits)
+    in useful ways. There are various choices for the implementation of qubits in practice, one of which being an atom with a
+    low-excited state
+    and a high-excited state coupled by an electromagnetic (EM) field. This investigation probes the dynamics of a quantum system
+    composed of two-such qubits.
+
+    Consider an atom driven by an extermanl EM field coupled to the transition between $|0\rangle$, the ground state
+    or a low excited state, and $|r\rangle$, an excited state with large principal quantum number such as $n>50$ known as a
+    Rydberg state. The atomic qubit's evolution is governed by the time-dependent Schr\"odinger equation with a hamiltonian
+    of the from
+    $$
+
+    $$
+
+    Consider an atomic qubit driven by a plane-polarised EM wave that perturbs the atom's original hamiltonian $H_0$ by
+     $H'(t)=-\mathbf{d} \cdot \mathbf{\epsilon}$,
+    where $\mathbf{d}$
+    is the dipole operator and $\mathbf{\epsilon}$ is a sinusoidally-time-varying electric field. The qubit's time evolution is
+    governed by a time-dependent Schr\"odinger equation, $i\hbar \partial_t |\psi(t)\rangle = H_{int} |\psi(t)\rangle$, where
+    $|\psi(t)\rangle$ is the qubit's state vector and $H_{int}$ describes the interaction between the atom and the EM field. Let
+    \{$|0\rangle, |r\rangle$\} be a set of orthonormal eigenstates of $H_0$ such that $|0\rangle$ is a low-excited state with
+    energy $E_0$ and
+    $|r\rangle$ is a high-excited state with principal quantum number on the order of $n>50$ and energy $E_r$,
+    known as a Rydberg state. The
+    natural frequency of the transition between these states is $\omega_0 = (E_r - E_0) / \hbar$, and the Rabi frequency is
+    defined as $\Omega=\langle r|H'(t)|0\rangle / \hbar$.  When
+    considering interaction with an EM wave of angular frequency $\omega$ and detuning $\Delta = \omega - \omega_0$
+    such that $|\Delta|,\Omega \ll |\omega - \omega_{other}|$, where $\omega_{other}$ ranges over the frequencies of all other
+    laser-accessible transitions, $|\psi\rangle$ can be approximated as a superposition of only the eigenstates
+    \{$|0\rangle, |r\rangle$\}. In this basis the atomic state vector and interaction hamiltonian are
+    $$
+    |\psi(t)\rangle = \begin{pmatrix}
+    a(t) \\
+    b(t) \\
+    \end{pmatrix}, H_{int} = \hbar/2
+    \begin{pmatrix}
+    \Delta & \Omega e^{-i \phi_L} \\
+    \Omega e^{i \phi_L} & -\Delta
+    \end{pmatrix},
+    $$
+    where $\phi_L$ is the initial phase of the electric field, and $a(t),b(t)$ are time-dependent complex coefficients.
+
+    Any useful quantum computation requires entanglement between multiple qubits, however neutrally charged atoms do not
+    produce a strong enough interaction to be entangled; this is why the atomic qubit described involves a Rydberg state. When
+    two nearby atoms are in Rydberg states, their van der Waals interaction causes the combined state to experience
+    an energy shift of $\hbar V = C_6 / R^6$, where $R$ is their internuclear distance and $C_6$ is a constant rising rapidly
+    with principle quantum number. In the two-atom basis \{$|00\rangle, |0r\rangle, |r0\rangle, |rr\rangle$\}, representing
+    the four eigenstates of the bare two-atom hamiltonian, the two-atom state vector and interaction hamiltonian are
+
+
+
+
+
+
+  \end{block}
+
+
+
+
+
+\end{column}
+
+\separatorcolumn
+
+\begin{column}{\colwidth}
+
+  $$ |\psi(t)\rangle = \begin{pmatrix}
+    a(t) \\
+    b(t) \\
+    c(t) \\
+    d(t)
+    \end{pmatrix}, H_{int}= \hbar / 2
+    \begin{pmatrix}
+    2\Delta & \Omega e^{-i \phi_L} & \Omega e^{-i \phi_L} & 0 \\
+    \Omega e^{i \phi_L} & 0 & 0 & \Omega e^{-i \phi_L} \\
+    \Omega e^{i \phi_L} & 0 & 0 & \Omega e^{-i \phi_L} \\
+    0 & \Omega e^{i \phi_L} & \Omega e^{i \phi_L} & -2\Delta + 2V
+    \end{pmatrix}.
+    $$
+
+  \begin{block}{A block containing an enumerated list}
+
+
+    Vivamus congue volutpat elit non semper. Praesent molestie nec erat ac
+    interdum. In quis suscipit erat. \textbf{Phasellus mauris felis, molestie
+    ac pharetra quis}, tempus nec ante. Donec finibus ante vel purus mollis
+    fermentum. Sed felis mi, pharetra eget nibh a, feugiat eleifend dolor. Nam
+    mollis condimentum purus quis sodales. Nullam eu felis eu nulla eleifend
+    bibendum nec eu lorem. Vivamus felis velit, volutpat ut facilisis ac,
+    commodo in metus.
+
+    \begin{enumerate}
+      \item \textbf{Morbi mauris purus}, egestas at vehicula et, convallis
+        accumsan orci. Orci varius natoque penatibus et magnis dis parturient
+        montes, nascetur ridiculus mus.
+      \item \textbf{Cras vehicula blandit urna ut maximus}. Aliquam blandit nec
+        massa ac sollicitudin. Curabitur cursus, metus nec imperdiet bibendum,
+        velit lectus faucibus dolor, quis gravida metus mauris gravida turpis.
+      \item \textbf{Vestibulum et massa diam}. Phasellus fermentum augue non
+        nulla accumsan, non rhoncus lectus condimentum.
+    \end{enumerate}
+
+  \end{block}
+
+  \begin{block}{Fusce aliquam magna velit}
+
+    Et rutrum ex euismod vel. Pellentesque ultricies, velit in fermentum
+    vestibulum, lectus nisi pretium nibh, sit amet aliquam lectus augue vel
+    velit. Suspendisse rhoncus massa porttitor augue feugiat molestie. Sed
+    molestie ut orci nec malesuada. Sed ultricies feugiat est fringilla
+    posuere.
+
+    \begin{figure}
+      \centering
+      \begin{tikzpicture}
+        \begin{axis}[
+            scale only axis,
+            no markers,
+            domain=0:2*pi,
+            samples=100,
+            axis lines=center,
+            axis line style={-},
+            ticks=none]
+          \addplot[red] {sin(deg(x))};
+          \addplot[blue] {cos(deg(x))};
+        \end{axis}
+      \end{tikzpicture}
+      \caption{Another figure caption.}
+    \end{figure}
+
+  \end{block}
+
+  \begin{block}{Nam cursus consequat egestas}
+
+    Nulla eget sem quam. Ut aliquam volutpat nisi vestibulum convallis. Nunc a
+    lectus et eros facilisis hendrerit eu non urna. Interdum et malesuada fames
+    ac ante \textit{ipsum primis} in faucibus. Etiam sit amet velit eget sem
+    euismod tristique. Praesent enim erat, porta vel mattis sed, pharetra sed
+    ipsum. Morbi commodo condimentum massa, \textit{tempus venenatis} massa
+    hendrerit quis. Maecenas sed porta est. Praesent mollis interdum lectus,
+    sit amet sollicitudin risus tincidunt non.
+
+    Etiam sit amet tempus lorem, aliquet condimentum velit. Donec et nibh
+    consequat, sagittis ex eget, dictum orci. Etiam quis semper ante. Ut eu
+    mauris purus. Proin nec consectetur ligula. Mauris pretium molestie
+    ullamcorper. Integer nisi neque, aliquet et odio non, sagittis porta justo.
+
+    \begin{itemize}
+      \item \textbf{Sed consequat} id ante vel efficitur. Praesent congue massa
+        sed est scelerisque, elementum mollis augue iaculis.
+        \begin{itemize}
+          \item In sed est finibus, vulputate
+            nunc gravida, pulvinar lorem. In maximus nunc dolor, sed auctor eros
+            porttitor quis.
+          \item Fusce ornare dignissim nisi. Nam sit amet risus vel lacus
+            tempor tincidunt eu a arcu.
+          \item Donec rhoncus vestibulum erat, quis aliquam leo
+            gravida egestas.
+        \end{itemize}
+      \item \textbf{Sed luctus, elit sit amet} dictum maximus, diam dolor
+        faucibus purus, sed lobortis justo erat id turpis.
+      \item \textbf{Pellentesque facilisis dolor in leo} bibendum congue.
+        Maecenas congue finibus justo, vitae eleifend urna facilisis at.
+    \end{itemize}
+
+  \end{block}
+
+\end{column}
+
+\separatorcolumn
+
+\begin{column}{\colwidth}
+
+  \begin{exampleblock}{A highlighted block containing some math}
+
+    A different kind of highlighted block.
+
+    $$
+    \int_{-\infty}^{\infty} e^{-x^2}\,dx = \sqrt{\pi}
+    $$
+
+    Interdum et malesuada fames $\{1, 4, 9, \ldots\}$ ac ante ipsum primis in
+    faucibus. Cras eleifend dolor eu nulla suscipit suscipit. Sed lobortis non
+    felis id vulputate.
+
+    \heading{A heading inside a block}
+
+    Praesent consectetur mi $x^2 + y^2$ metus, nec vestibulum justo viverra
+    nec. Proin eget nulla pretium, egestas magna aliquam, mollis neque. Vivamus
+    dictum $\mathbf{u}^\intercal\mathbf{v}$ sagittis odio, vel porta erat
+    congue sed. Maecenas ut dolor quis arcu auctor porttitor.
+
+    \heading{Another heading inside a block}
+
+    Sed augue erat, scelerisque a purus ultricies, placerat porttitor neque.
+    Donec $P(y \mid x)$ fermentum consectetur $\nabla_x P(y \mid x)$ sapien
+    sagittis egestas. Duis eget leo euismod nunc viverra imperdiet nec id
+    justo.
+
+  \end{exampleblock}
+
+  \begin{block}{References}
+
+    Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
+    inceptos himenaeos. Phasellus libero enim, gravida sed erat sit amet,
+    scelerisque congue diam. Fusce dapibus dui ut augue pulvinar iaculis.
+
+    \begin{table}
+      \centering
+      \begin{tabular}{l r r c}
+        \toprule
+        \textbf{First column} & \textbf{Second column} & \textbf{Third column} & \textbf{Fourth} \\
+        \midrule
+        Foo & 13.37 & 384,394 & $\alpha$ \\
+        Bar & 2.17 & 1,392 & $\beta$ \\
+        Baz & 3.14 & 83,742 & $\delta$ \\
+        Qux & 7.59 & 974 & $\gamma$ \\
+        \bottomrule
+      \end{tabular}
+      \caption{A table caption.}
+    \end{table}
+
+    Donec quis posuere ligula. Nunc feugiat elit a mi malesuada consequat. Sed
+    imperdiet augue ac nibh aliquet tristique. Aenean eu tortor vulputate,
+    eleifend lorem in, dictum urna. Proin auctor ante in augue tincidunt
+    tempor. Proin pellentesque vulputate odio, ac gravida nulla posuere
+    efficitur. Aenean at velit vel dolor blandit molestie. Mauris laoreet
+    commodo quam, non luctus nibh ullamcorper in. Class aptent taciti sociosqu
+    ad litora torquent per conubia nostra, per inceptos himenaeos.
+
+
+
+  \end{block}
+
+  \begin{block}{References}
+
+    \nocite{*}
+    \footnotesize{\bibliographystyle{plain}\bibliography{poster}}
+
+  \end{block}
+
+\end{column}
+
+\separatorcolumn
+\end{columns}
+\end{frame}
+
+\end{document}
