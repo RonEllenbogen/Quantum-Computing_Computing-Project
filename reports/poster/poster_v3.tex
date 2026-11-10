@@ -96,48 +96,41 @@
     and a high-excited state coupled by an electromagnetic (EM) field. This investigation probes the dynamics of a quantum system
     composed of two-such qubits.
 
-    Consider an atom driven by an extermanl EM field coupled to the transition between $|0\rangle$, the ground state
-    or a low excited state, and $|r\rangle$, an excited state with large principal quantum number such as $n>50$ known as a
-    Rydberg state. The atomic qubit's evolution is governed by the time-dependent Schr\"odinger equation with a hamiltonian
-    of the from
-    $$
-
-    $$
-
-    Consider an atomic qubit driven by a plane-polarised EM wave that perturbs the atom's original hamiltonian $H_0$ by
-     $H'(t)=-\mathbf{d} \cdot \mathbf{\epsilon}$,
-    where $\mathbf{d}$
-    is the dipole operator and $\mathbf{\epsilon}$ is a sinusoidally-time-varying electric field. The qubit's time evolution is
-    governed by a time-dependent Schr\"odinger equation, $i\hbar \partial_t |\psi(t)\rangle = H_{int} |\psi(t)\rangle$, where
-    $|\psi(t)\rangle$ is the qubit's state vector and $H_{int}$ describes the interaction between the atom and the EM field. Let
-    \{$|0\rangle, |r\rangle$\} be a set of orthonormal eigenstates of $H_0$ such that $|0\rangle$ is a low-excited state with
-    energy $E_0$ and
-    $|r\rangle$ is a high-excited state with principal quantum number on the order of $n>50$ and energy $E_r$,
-    known as a Rydberg state. The
-    natural frequency of the transition between these states is $\omega_0 = (E_r - E_0) / \hbar$, and the Rabi frequency is
-    defined as $\Omega=\langle r|H'(t)|0\rangle / \hbar$.  When
-    considering interaction with an EM wave of angular frequency $\omega$ and detuning $\Delta = \omega - \omega_0$
-    such that $|\Delta|,\Omega \ll |\omega - \omega_{other}|$, where $\omega_{other}$ ranges over the frequencies of all other
-    laser-accessible transitions, $|\psi\rangle$ can be approximated as a superposition of only the eigenstates
-    \{$|0\rangle, |r\rangle$\}. In this basis the atomic state vector and interaction hamiltonian are
-    $$
-    |\psi(t)\rangle = \begin{pmatrix}
-    a(t) \\
-    b(t) \\
-    \end{pmatrix}, H_{int} = \hbar/2
+    Consider an atom driven by a plane-polarised EM wave of angular frequency $\omega$ coupled to the transition between
+     $|0\rangle$, the ground state
+    or a low excited state with energy $E_0$, and $|r\rangle$, an excited state with large principal quantum number such as $n>50$
+    and energy $E_r$ known as a
+    Rydberg state. By making the electric dipole approximation and the rotating wave approximation, the hamiltonian governing
+    the atomic qubit's evolution can be written, in
+    the \{$|0\rangle, |r\rangle$\} basis,
+    as
+    $$H_{int}=\frac{\hbar}{2}
     \begin{pmatrix}
-    \Delta & \Omega e^{-i \phi_L} \\
-    \Omega e^{i \phi_L} & -\Delta
+      \Delta & \Omega e^{-i \phi_L} \\
+      \Omega e^{i \phi_L} & -\Delta
     \end{pmatrix},
     $$
-    where $\phi_L$ is the initial phase of the electric field, and $a(t),b(t)$ are time-dependent complex coefficients.
+    where $\phi$ is the initial EM wave phase, $\Delta=\omega - \omega_0$ is the detuning between the EM wave and the
+    transition's natural frequency $\omega_0$, and $\Omega$
+    is the Rabi frequency which characterises the coupling between the atomic transition and the field.
 
-    Any useful quantum computation requires entanglement between multiple qubits, however neutrally charged atoms do not
-    produce a strong enough interaction to be entangled; this is why the atomic qubit described involves a Rydberg state. When
-    two nearby atoms are in Rydberg states, their van der Waals interaction causes the combined state to experience
-    an energy shift of $\hbar V = C_6 / R^6$, where $R$ is their internuclear distance and $C_6$ is a constant rising rapidly
-    with principle quantum number. In the two-atom basis \{$|00\rangle, |0r\rangle, |r0\rangle, |rr\rangle$\}, representing
-    the four eigenstates of the bare two-atom hamiltonian, the two-atom state vector and interaction hamiltonian are
+    Any useful quantum computation requires entanglement between numerous qubits. While the interaction between neutral atoms
+    is usually insufficient, two nearby atoms with valence electrons both in Rydberg states interact through the van der Waals
+    force,
+    producing entanglement through shifting the joint $|rr\rangle$ state's energy by $V$. Consequently, the joint hamiltonian
+    for the bi-atomic qubit system in the \{$|00\rangle, |0r\rangle, |r0\rangle, |rr\rangle$\} basis is
+    $$H_{int}=\frac{\hbar}{2}
+    \begin{pmatrix}
+    2\Delta & \Omega e^{-i \phi_L} & \Omega e^{-i \phi_L} & 0 \\
+    \Omega e^{i \phi_L} & 0 & 0 & \Omega e^{-i \phi_L} \\
+    \Omega e^{i \phi_L} & 0 & 0 & \Omega e^{-i \phi_L} \\
+    0 & \Omega e^{i \phi_L} & \Omega e^{i \phi_L} & -2\Delta + 2V
+    \end{pmatrix}.
+    $$
+
+    INTERESTING DIAGRAM
+
+
 
 
 
@@ -156,73 +149,45 @@
 
 \begin{column}{\colwidth}
 
-  $$ |\psi(t)\rangle = \begin{pmatrix}
-    a(t) \\
-    b(t) \\
-    c(t) \\
-    d(t)
-    \end{pmatrix}, H_{int}= \hbar / 2
-    \begin{pmatrix}
-    2\Delta & \Omega e^{-i \phi_L} & \Omega e^{-i \phi_L} & 0 \\
-    \Omega e^{i \phi_L} & 0 & 0 & \Omega e^{-i \phi_L} \\
-    \Omega e^{i \phi_L} & 0 & 0 & \Omega e^{-i \phi_L} \\
-    0 & \Omega e^{i \phi_L} & \Omega e^{i \phi_L} & -2\Delta + 2V
-    \end{pmatrix}.
-    $$
+  \begin{block}{Analytic Cases: $V \approx 0, |V| \gg |\Omega|$}
 
-  \begin{block}{A block containing an enumerated list}
+    \begin{itemize}
+      \item \textbf{$V \approx 0$.}
+      \item \textbf{$|V| \gg |\Omega|$.}
+    \end{itemize}
 
 
-    Vivamus congue volutpat elit non semper. Praesent molestie nec erat ac
-    interdum. In quis suscipit erat. \textbf{Phasellus mauris felis, molestie
-    ac pharetra quis}, tempus nec ante. Donec finibus ante vel purus mollis
-    fermentum. Sed felis mi, pharetra eget nibh a, feugiat eleifend dolor. Nam
-    mollis condimentum purus quis sodales. Nullam eu felis eu nulla eleifend
-    bibendum nec eu lorem. Vivamus felis velit, volutpat ut facilisis ac,
-    commodo in metus.
 
+
+  \end{block}
+
+
+  \begin{block}{Time Evolution}
+    Given the parameters $\Delta, \Omega, \phi_L,$ and $V$ are constant over time, the two-state hamiltonian is time-independent,
+    so the propagator is exactly $U(t) = e^{-iH_{int}t/\hbar}$. Given the initial state $|\Psi(0)\rangle$, the joint
+    state vector is evaluated at any time $t$ using the following algorithm:
     \begin{enumerate}
-      \item \textbf{Morbi mauris purus}, egestas at vehicula et, convallis
-        accumsan orci. Orci varius natoque penatibus et magnis dis parturient
-        montes, nascetur ridiculus mus.
-      \item \textbf{Cras vehicula blandit urna ut maximus}. Aliquam blandit nec
-        massa ac sollicitudin. Curabitur cursus, metus nec imperdiet bibendum,
-        velit lectus faucibus dolor, quis gravida metus mauris gravida turpis.
-      \item \textbf{Vestibulum et massa diam}. Phasellus fermentum augue non
-        nulla accumsan, non rhoncus lectus condimentum.
+      \item \textbf{Rotate}. Find the eigenvectors and eigenvalues of $H_{int}$ and rotate $|\Psi(0)\rangle$ into this eigenbasis
+        with a rotation matrix $R$ composed of the eigenvectors.
+      \item \textbf{Evolve}. Multiply each of the state's components in the eigenbasis by the propagator $e^{-iE_jt/\hbar}$
+      where $E_j$ are the corresponding eigenvalues.
+      \item \textbf{Rotate back}. Use $R^\dag$ to rotate the evolved state back into the original basis.
     \end{enumerate}
+    Mathematically,
+    $$
+    |\Psi(t)\rangle = R^\dag D R|\Psi(0)\rangle,
+    $$
+    where $D$ is the $4x4$ matrix with $e^{-iE_jt/\hbar}$ on the diagonals and zero elsewhere. The time evolution of the initial
+    state $|\Psi(0)\rangle=|00\rangle$ was solved for using this method. The probability of remaining in the initial state at
+    time $t$, $P_{|00\rangle}=|\langle 00 | \Psi(t) \rangle|^2$, and the probability of transition to the maximally entangled
+    bell state $|\Psi^+ \rangle = \frac{1}{\sqrt{2}}(|0r\rangle + |r0\rangle)$,
+    $P_{|\Psi^+\rangle}=|\langle \Psi^+ | \Psi(t) \rangle|^2$, were evaluated at each point in time.
 
   \end{block}
 
-  \begin{block}{Fusce aliquam magna velit}
 
-    Et rutrum ex euismod vel. Pellentesque ultricies, velit in fermentum
-    vestibulum, lectus nisi pretium nibh, sit amet aliquam lectus augue vel
-    velit. Suspendisse rhoncus massa porttitor augue feugiat molestie. Sed
-    molestie ut orci nec malesuada. Sed ultricies feugiat est fringilla
-    posuere.
 
-    \begin{figure}
-      \centering
-      \begin{tikzpicture}
-        \begin{axis}[
-            scale only axis,
-            no markers,
-            domain=0:2*pi,
-            samples=100,
-            axis lines=center,
-            axis line style={-},
-            ticks=none]
-          \addplot[red] {sin(deg(x))};
-          \addplot[blue] {cos(deg(x))};
-        \end{axis}
-      \end{tikzpicture}
-      \caption{Another figure caption.}
-    \end{figure}
-
-  \end{block}
-
-  \begin{block}{Nam cursus consequat egestas}
+  \begin{block}{Results}
 
     Nulla eget sem quam. Ut aliquam volutpat nisi vestibulum convallis. Nunc a
     lectus et eros facilisis hendrerit eu non urna. Interdum et malesuada fames
